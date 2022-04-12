@@ -13,8 +13,22 @@ var dealersCards = document.getElementById('r32');
 var usersCards = document.getElementById('r52');
 var nextDealer = 0;
 var nextUser = 0;
+var wins = 0;
+var losses = 0;
+var winsConnected = document.getElementById('r21');
+var lossesConnected = document.getElementById('r22');
+var userBusted = false; 
+var dealerBusted = false; 
+var userBlackjack = false; 
+var dealerValue; 
+var playerValue; 
 
 function deal() {
+    userBusted = false; 
+    dealerBusted = false; 
+    userBlackjack = false;
+    dealersCardIndexes = [7];
+    usersCardIndexes = [7];
     var random1 = Math.floor(Math.random() * 52);   
     var random2 = random1;
     while(random2 == random1) {
@@ -55,6 +69,21 @@ function hitUser() {
     getValueOfPlayerHand(); 
 }
 
+function hitDealer() {
+    var random = Math.floor(Math.random()*52);
+    while(dealersCardIndexes.includes(random)) {
+        random = Math.floor(Math.random()*52);
+    }
+    dealersCardIndexes[nextDealer] = random;
+    nextDealer++;
+    var print = "";
+    for(i = 0; i < nextDealer; i++) {
+        print = print.concat(deck[dealersCardIndexes[i]]).concat(" ");
+    }
+    dealersCards.innerHTML = print;
+    getValueOfDealerHand(); 
+}
+
 function getValueOfPlayerHand () {
     var total = 0; 
     var numAces = 0;  
@@ -68,20 +97,34 @@ function getValueOfPlayerHand () {
         } else if (deck[usersCardIndexes[i]].substring(0,1) == 'A') {
             value = 11; 
             numAces++; 
-        } else if (deck[dealersCardIndexes[i]].substring(0,1) == '1') {
+        } else if (deck[usersCardIndexes[i]].substring(0,1) == '1') {
             value = 10;
         } else {
             value = parseInt(deck[usersCardIndexes[i]].substring(0,1)); 
         }
         total += value; 
     }
-        while (numAces > 0 && total > 22) {
+        while (numAces > 0 && total > 21) {
             total-=10; 
             numAces--; 
         }
-            console.log(total);
-    var dealerDisplayTotal = document.getElementById('r62');
-    dealerDisplayTotal.innerHTML = total;
+        console.log(total);
+    var userDisplayTotal = document.getElementById('r62');
+    playerValue = total; 
+    if(total > 21) {
+        userBusted = true; 
+        userDisplayTotal.innerHTML = "BUST";
+        console.log("about to call eal win");
+        evalWin();
+    } else if (total == 21) {
+        userBlackjack = true; 
+        userDisplayTotal.innerHTML = total;
+        evalWin(); 
+    }
+    else {
+        userDisplayTotal.innerHTML = total;
+    }
+    
     return total;  
 }
 
@@ -109,10 +152,51 @@ function getValueOfDealerHand () {
         numAces--; 
     }
     console.log(total);
+    dealerValue = total; 
     var dealerDisplayTotal = document.getElementById('r42');
-    dealerDisplayTotal.innerHTML = total;
-    return total; 
+    if(total > 21) {
+        dealerBusted = true; 
+        dealerDisplayTotal.innerHTML = "BUST";
+        return;
+    }else{
+        dealerDisplayTotal.innerHTML = total;
     }
+    
+    return total; 
+}
+
+function stay() {
+    while(getValueOfDealerHand() < 17){
+        hitDealer();
+    }
+    evalWin();
+}
+
+function evalWin() {
+    console.log (dealerValue +" ******************* " + playerValue); 
+    console.log("in evalwin"); 
+    if(dealerBusted) {
+        console.log("dealer busted");
+        wins++;
+        winsConnected.innerHTML = wins;
+        return;
+     }else if(userBusted){
+         console.log("about to increment losses"); 
+        losses++;
+        lossesConnected.innerHTML = losses;
+    } else if (userBlackjack) {
+        console.log("user blakcjack");
+        wins++;
+        winsConnected.innerHTML = wins;
+    } else if(dealerValue > playerValue) {
+        console.log("about to increment losses *****************"); 
+        losses++;
+        lossesConnected.innerHTML = losses;
+    }  else { 
+        wins++;
+        winsConnected.innerHTML = wins;
+    }
+}
 
 
 var sol =
