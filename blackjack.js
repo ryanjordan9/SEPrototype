@@ -23,5 +23,4 @@ function deal() {
     while(random4 == random3 | random4 == random2 | random4 == random1){
         random4 = Math.random() * 52;
     }
-    var dealerCard = 
 }
