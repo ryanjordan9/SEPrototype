@@ -13,15 +13,36 @@ function deal() {
     var random1 = Math.random() * 52;
     var random2 = random1;
     while(random2 == random1) {
-        random2 = Math.random() * 52;
+        random2 = Math.floor(Math.random() * 52);
     } 
     var random3 = random2;
     while(random3 == random1 | random3 == random2) {
-        random3 = Math.random() * 52;
+        random3 = Math.floor(Math.random() * 52);
     }
     var random4 = random3;
     while(random4 == random3 | random4 == random2 | random4 == random1){
-        random4 = Math.random() * 52;
+        random4 = Math.floor(Math.random() * 52);
     }
-    var dealerCard = 
+    var idk = document.getElementById('r32');
+    idk.innerHTML = random1;
+
 }
+
+var sol =
+    [['Wins', 'Losses'],
+    [0, 0],
+    ['Dealers Cards',''],
+    ['10 of Hearts', '5 of Clubs'],
+    ['Your Cards',''],
+    ['Jack of Clubs', '4 of Diamonds']];
+//this function prints the board
+var printBoard = function () {
+    //print board
+    for(var i=1; i<=6 ; i++) {
+        for(var j=1; j<=2; j++) {
+            var rAll = document.getElementById('r'+i+j);
+            rAll.innerHTML =sol[i-1][j-1];
+        }
+    }
+};
+printBoard();
