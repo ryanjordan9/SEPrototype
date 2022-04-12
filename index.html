@@ -1,14 +1,48 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <link type="text/css" rel="stylesheet" href="blackjack.css" media="screen">
+        <title>BlackJack</title>
+    </head>
     <body>
+        <h1>Blackjack</h1>
         <main id="main">
-            
             <p>
-                Black Jack 
-                The Aces
+                Welcome to our Blackjack game! 
+                -The Aces
 
             </p>
         </main>
+    <table >
+        <tr >        
+        <td id='r11'> </td > 
+        <td id='r12'> </td >
+        </tr >
+        <tr >
+        <td id='r21' > </td >
+        <td id='r22' > </td >
+        </tr >
+        <tr >
+        <td id='r31'> </td >
+        <td id='r32'> </td >
+        </tr >
+        <tr >
+        <td id='r41'> </td >
+        <td id='r42'> </td >
+        </tr >
+        <tr >
+        <td id='r51'> </td >
+        <td id='r52'> </td >
+        </tr >
+        <tr >
+        <td id='r61'> </td >
+        <td id='r62'> </td >
+        </tr >
+    </table >
+    <button onclick="deal()">Deal</button>
+	<button onclick="hit()">Hit</button>
+    <button onclick="stay()">Stay</button>
+    <button onclick="stay()">Split</button>
     </body>
-
+    <script src ="blackjack.js" > </script >
 </html>
