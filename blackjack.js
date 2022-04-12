@@ -8,9 +8,12 @@ const deck = ["Spade 1", "Spade 2", "Spade 3", "Spade 4", "Spade 5", "Spade 6", 
     "Diamonds 1", "Diamonds 2", "Diamonds 3", "Diamonds 4", "Diamonds 5", "Diamonds 6", "Diamonds 7", "Diamonds 8", "Diamonds 9",
     "Diamonds 10", "Diamonds J", "Diamonds Q", "Diamonds K", "Diamonds A",
 ]
-
+var dealersCardIndexes = [7];
+var usersCardIndexes = [7];
+var dealersCard = "";
+var usersCard = "";
 function deal() {
-    var random1 = Math.random() * 52;
+    var random1 = Math.floor(Math.random() * 52);
     var random2 = random1;
     while(random2 == random1) {
         random2 = Math.floor(Math.random() * 52);
@@ -23,8 +26,16 @@ function deal() {
     while(random4 == random3 | random4 == random2 | random4 == random1){
         random4 = Math.floor(Math.random() * 52);
     }
+    dealersCardIndexes[0] = random1;
+    dealersCardIndexes[1] = random2;
+    usersCardIndexes[0] = random3;
+    usersCardIndexes[1] = random4;
+    dealersCard = deck[random1] +" "+ deck[random2];
+    usersCard = deck[random3] + " "+ deck[random4];
     var idk = document.getElementById('r32');
-    idk.innerHTML = random1;
+    idk.innerHTML = dealersCard;
+    var idk1 = document.getElementById('r52');
+    idk1.innerHTML = usersCard;
 
 }
 
