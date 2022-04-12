@@ -10,8 +10,11 @@ const deck = ["Spade 1", "Spade 2", "Spade 3", "Spade 4", "Spade 5", "Spade 6", 
 ]
 var dealersCardIndexes = [7];
 var usersCardIndexes = [7];
-var dealersCard = "";
-var usersCard = "";
+var dealersCards = document.getElementById('r32');
+var usersCards = document.getElementById('r52');
+var nextDealer = 0;
+var nextUser = 0;
+
 function deal() {
     var random1 = Math.floor(Math.random() * 52);
     var random2 = random1;
@@ -28,16 +31,30 @@ function deal() {
     }
     dealersCardIndexes[0] = random1;
     dealersCardIndexes[1] = random2;
+    nextDealer = 2;
     usersCardIndexes[0] = random3;
     usersCardIndexes[1] = random4;
-    dealersCard = deck[random1] +" "+ deck[random2];
-    usersCard = deck[random3] + " "+ deck[random4];
-    var idk = document.getElementById('r32');
-    idk.innerHTML = dealersCard;
-    var idk1 = document.getElementById('r52');
-    idk1.innerHTML = usersCard;
-
+    nextUser = 2;
+    dealersCards.innerHTML = deck[dealersCardIndexes[0]] + " " + deck[dealersCardIndexes[1]];
+    usersCards.innerHTML = deck[usersCardIndexes[0]] + " " + deck[usersCardIndexes[1]];;
 }
+
+function hitUser() {
+    var random = Math.floor(Math.random()*52);
+    while(usersCardIndexes.includes(random)) {
+        random = Math.floor(Math.random()*52);
+    }
+    usersCardIndexes[nextUser] = random;
+    nextUser++;
+    var print = "";
+    for(i = 0; i < nextUser; i++) {
+        print = print.concat(deck[usersCardIndexes[i]]).concat(" ");
+    }
+    usersCards.innerHTML = print;
+}
+
+
+
 
 var sol =
     [['Wins', 'Losses'],
