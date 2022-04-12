@@ -9,8 +9,10 @@ const deck = ["2 Spade", "3 Spade", "4 Spade", "5 Spade", "6 Spade", "7 Spade", 
 "10 Diamonds", "J Diamonds", "Q Diamonds", "K Diamonds", "A Diamonds",]
 var dealersCardIndexes = [7];
 var usersCardIndexes = [7];
-var dealersCard = "";
-var usersCard = "";
+var dealersCards = document.getElementById('r32');
+var usersCards = document.getElementById('r52');
+var nextDealer = 0;
+var nextUser = 0;
 
 function deal() {
     var random1 = Math.floor(Math.random() * 52);   
@@ -28,22 +30,29 @@ function deal() {
     }
     dealersCardIndexes[0] = random1;
     dealersCardIndexes[1] = random2;
+    nextDealer = 2;
     usersCardIndexes[0] = random3;
     usersCardIndexes[1] = random4;
-    dealersCard_one = deck[random1];
-    dealersCard_two=deck[random2];
-    usersCard_one = deck[random3];
-    usersCard_two=deck[random4];
-    var dealerDisplayCell_one = document.getElementById('r41');
-    dealerDisplayCell_one.innerHTML = dealersCard_one;
-    var dealerDisplayCell_two = document.getElementById('r42');
-    dealerDisplayCell_two.innerHTML = dealersCard_two;
-    var playerDisplayCell_one = document.getElementById('r61');
-    playerDisplayCell_one.innerHTML = usersCard_one;
-    var dealerDisplayCell_two = document.getElementById('r62');
-    dealerDisplayCell_two.innerHTML = usersCard_two;
+    nextUser = 2;
+    dealersCards.innerHTML = deck[dealersCardIndexes[0]] + " " + deck[dealersCardIndexes[1]];
+    usersCards.innerHTML = deck[usersCardIndexes[0]] + " " + deck[usersCardIndexes[1]];
     getValueOfPlayerHand();
     getValueOfDealerHand();
+}
+
+function hitUser() {
+    var random = Math.floor(Math.random()*52);
+    while(usersCardIndexes.includes(random)) {
+        random = Math.floor(Math.random()*52);
+    }
+    usersCardIndexes[nextUser] = random;
+    nextUser++;
+    var print = "";
+    for(i = 0; i < nextUser; i++) {
+        print = print.concat(deck[usersCardIndexes[i]]).concat(" ");
+    }
+    usersCards.innerHTML = print;
+    getValueOfPlayerHand(); 
 }
 
 function getValueOfPlayerHand () {
@@ -65,14 +74,15 @@ function getValueOfPlayerHand () {
             value = parseInt(deck[usersCardIndexes[i]].substring(0,1)); 
         }
         total += value; 
+    }
         while (numAces > 0 && total > 22) {
             total-=10; 
             numAces--; 
+        }
             console.log(total);
-    var dealerDisplayTotal = document.getElementById('r52');
+    var dealerDisplayTotal = document.getElementById('r62');
     dealerDisplayTotal.innerHTML = total;
     return total;  
-    }
 }
 
 function getValueOfDealerHand () {
@@ -99,19 +109,19 @@ function getValueOfDealerHand () {
         numAces--; 
     }
     console.log(total);
-    var dealerDisplayTotal = document.getElementById('r32');
+    var dealerDisplayTotal = document.getElementById('r42');
     dealerDisplayTotal.innerHTML = total;
     return total; 
     }
-}
+
 
 var sol =
 [['Wins', 'Losses'],
 [0, 0],
-['Dealers Cards','Total'],
-['Card 1', 'Card 2'],
-['Your Cards','Total'],
-['Card 1', 'Card 2']];
+['Dealers Cards','Cards'],
+['Total', ''],
+['Your Cards','Cards'],
+['Total', '']];
 //this function prints the board
 var printBoard = function () {
 //print board
